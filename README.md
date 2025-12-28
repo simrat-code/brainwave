@@ -1,2 +1,2 @@
 # brainwave
-odoo module for testing new ideas
+Project Management tool.
