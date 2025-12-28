@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Edit Task</h2>
+
+<form method="post">
+    <input name="title" value="{{ task.title }}" required>
+
+    <input type="date" name="due_date"
+           value="{{ task.due_date.isoformat() }}" required>
+
+    <select name="priority">
+        <option {% if task.priority == "High" %}selected{% endif %}>High</option>
+        <option {% if task.priority == "Medium" %}selected{% endif %}>Medium</option>
+        <option {% if task.priority == "Low" %}selected{% endif %}>Low</option>
+    </select>
+
+    <button>Save</button>
+</form>
+
+<a href="/projects/{{ task.project_id }}">⬅ Back</a>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>{{ project.name }}</h2>
+
+<h3>Add Task</h3>
+<form method="post" action="/projects/{{ project.id }}/tasks">
+    <input name="title" placeholder="Task title" required>
+    <input type="date" name="due_date" required>
+    <select name="priority">
+        <option>High</option>
+        <option>Medium</option>
+        <option>Low</option>
+    </select>
+    <button>Add</button>
+</form>
+
+<h3>Tasks</h3>
+<ul>
+{% for task in project.tasks %}
+    <li class="{% if task.done %}done{% endif %}">
+        <span class="{{ task.priority|lower }}">
+            {{ task.title }} ({{ task.priority }}, due {{ task.due_date }})
+        </span>
+
+        <form method="post" action="/tasks/{{ task.id }}/toggle" style="display:inline">
+            <button>✔</button>
+        </form>
+
+        <a href="/tasks/{{ task.id }}/edit">✏️ Edit</a>
+    </li>
+{% endfor %}
+</ul>
+
+
+{% endblock %}
