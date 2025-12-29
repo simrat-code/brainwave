@@ -19,15 +19,25 @@
 <ul>
 {% for task in project.tasks %}
     <li class="{% if task.done %}done{% endif %}">
-        <span class="{{ task.priority|lower }}">
-            {{ task.title }} ({{ task.priority }}, due {{ task.due_date }})
-        </span>
 
         <form method="post" action="/tasks/{{ task.id }}/toggle" style="display:inline">
             <button>✔</button>
         </form>
 
-        <a href="/tasks/{{ task.id }}/edit">✏️ Edit</a>
+        <a href="/tasks/{{ task.id }}/edit">✏️ </a>
+
+        <!-- <span class="{{ task.priority|lower }}">
+            {{ task.title }} ({{ task.priority }} {{ task.due_date.strftime('%d/%m') }})
+        </span> -->
+
+        <span class="task-meta {{ task.priority|lower }}">
+            {% if task.priority == 'High' %}🔴{% endif %}
+            {% if task.priority == 'Medium' %}🟡{% endif %}
+            {% if task.priority == 'Low' %}🟢{% endif %}
+            {{ task.due_date.strftime('%d %b') if task.due_date else '—' }}
+        </span>
+        
+         {{ task.title }}
     </li>
 {% endfor %}
 </ul>

@@ -59,6 +59,9 @@ def create_project(name: str = Form(...), db: Session = Depends(get_db)):
 @app.get("/projects/{project_id}")
 def view_project(project_id: int, request: Request, db: Session = Depends(get_db)):
     project = db.query(Project).get(project_id)
+    project.tasks.sort(
+        key=lambda t: (t.due_date is None, t.due_date)
+    )
     return templates.TemplateResponse(
         "project.html",
         {"request": request, "project": project}
