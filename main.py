@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request, Depends, Form
 from fastapi import HTTPException
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from datetime import date
 
@@ -11,6 +12,7 @@ from models import Project, Task
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 

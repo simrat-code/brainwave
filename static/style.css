@@ -1,0 +1,26 @@
+body {
+    font-family: Arial;
+    margin: 40px;
+}
+
+.done {
+    text-decoration: line-through;
+    color: gray;
+}
+
+.high {
+    color: red;
+}
+
+.medium {
+    color: orange;
+}
+
+.low {
+    color: green;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
