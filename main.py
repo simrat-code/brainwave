@@ -76,10 +76,10 @@ def create_project(name: str = Form(...), db: Session = Depends(get_db)):
 def view_project(project_id: int, request: Request, db: Session = Depends(get_db)):
     projects = db.query(Project).all()
     project = db.query(Project).get(project_id)
-    # project.tasks.sort(
-    #     # done tasks to list last
-    #     key=lambda t: (t.done, t.due_date is None, t.due_date)
-    # )
+    project.tasks.sort(
+        # done tasks to list last
+        key=lambda t: (t.done, t.due_date is None, t.due_date)
+    )
     return templates.TemplateResponse(
         "project.html",
         {
