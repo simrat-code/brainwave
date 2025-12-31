@@ -30,24 +30,38 @@ def get_db():
 def dashboard(request: Request, db: Session = Depends(get_db)):
     projects = db.query(Project).all()
 
-    dashboard_data = []
-    for p in projects:
-        total = len(p.tasks)
-        done = len([t for t in p.tasks if t.done])
-        progress = int((done / total) * 100) if total else 0
-        dashboard_data.append((p, progress))
+    # dashboard_data = []
+    # for p in projects:
+    #     total = len(p.tasks)
+    #     done = len([t for t in p.tasks if t.done])
+    #     progress = int((done / total) * 100) if total else 0
+    #     dashboard_data.append((p, progress))
 
     return templates.TemplateResponse(
         "dashboard.html",
-        {"request": request, "projects": dashboard_data}
+        {
+            "request": request, 
+            # "projects": dashboard_data,
+            "projects": projects,
+            "current_project": None
+        }
     )
 
 
 # ---------------- PROJECT ----------------
 
 @app.get("/projects/create")
-def create_project_form(request: Request):
-    return templates.TemplateResponse("create_project.html", {"request": request})
+def create_project_form(request: Request, db: Session = Depends(get_db)):
+    # return templates.TemplateResponse("create_project.html", {"request": request})
+    projects = db.query(Project).all()
+    return templates.TemplateResponse(
+        "create_project.html",
+        {
+            "request": request,
+            "projects": projects,
+            "current_project": None
+        }
+    )
 
 
 @app.post("/projects/create")
@@ -60,14 +74,19 @@ def create_project(name: str = Form(...), db: Session = Depends(get_db)):
 
 @app.get("/projects/{project_id}")
 def view_project(project_id: int, request: Request, db: Session = Depends(get_db)):
+    projects = db.query(Project).all()
     project = db.query(Project).get(project_id)
-    project.tasks.sort(
-        # done tasks to list last
-        key=lambda t: (t.done, t.due_date is None, t.due_date)
-    )
+    # project.tasks.sort(
+    #     # done tasks to list last
+    #     key=lambda t: (t.done, t.due_date is None, t.due_date)
+    # )
     return templates.TemplateResponse(
         "project.html",
-        {"request": request, "project": project}
+        {
+            "request": request, 
+            "projects": projects,
+            "current_project": project
+        }
     )
 
 
@@ -106,12 +125,19 @@ def edit_task_form(
     db: Session = Depends(get_db)
 ):
     task = db.query(Task).get(task_id)
+    projects = db.query(Project).all()
+
     if not task:
         raise HTTPException(status_code=404)
 
     return templates.TemplateResponse(
         "edit_task.html",
-        {"request": request, "task": task}
+        {
+            "request": request, 
+            "task": task,
+            "projects": projects,
+            "current_project": task.project
+        }
     )
 
 @app.post("/tasks/{task_id}/edit")

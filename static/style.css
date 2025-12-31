@@ -24,3 +24,62 @@ ul {
     list-style: none;
     padding-left: 0;
 }
+
+.app-container {
+    display: flex;
+    height: 100vh;
+}
+
+.container {
+    display: flex;            /* 👈 THIS is the key */
+    flex-direction: row;      /* left → right */
+    height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 240px;
+    background: #f4f4f4;
+    padding: 15px;
+    border-right: 1px solid #ddd;
+    overflow-y: auto;
+}
+
+.project-list {
+    list-style: none;
+    padding: 0;
+}
+
+.project-list li {
+    margin-bottom: 8px;
+}
+
+.project-list li a {
+    text-decoration: none;
+    color: #333;
+}
+
+.project-list li.active a {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.project-link {
+    display: block;
+    padding: 6px;
+    text-decoration: none;
+    color: black;
+}
+
+.project-link.active {
+    background: #ddd;
+    font-weight: bold;
+}
+
+/* Main content */
+.content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+

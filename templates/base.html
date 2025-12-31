@@ -2,11 +2,30 @@
 <html>
 <head>
     <title>Project Manager</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/style.css?v=1">
 </head>
 <body>
-<h1><a href="/">Project Manager</a></h1>
-<hr>
-{% block content %}{% endblock %}
+
+<div class="container">
+    <!-- Left Sidebar -->
+    <div class="sidebar">
+        <h3>Projects</h3>
+        <a href="/projects/create">➕ New Project</a>
+        <hr>
+        {% for p in projects %}
+            <a href="/projects/{{ p.id }}"
+                class="project-link {% if current_project and p.id == current_project.id %}active{% endif %}">
+                {{ p.name }}
+            </a>
+        {% endfor %}
+        <hr>
+    </div>
+
+    <!-- Right Content -->
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
 </body>
 </html>

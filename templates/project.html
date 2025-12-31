@@ -1,47 +1,48 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>{{ project.name }}</h2>
+{% if current_project %}
 
-<!-- <h3>Add Task</h3> -->
-<form method="post" action="/projects/{{ project.id }}/tasks">
-    <input name="title" placeholder="Task title" required>
-    <input type="date" name="due_date" required>
-    <select name="priority">
-        <option>High</option>
-        <option>Medium</option>
-        <option>Low</option>
-    </select>
-    <button>Add</button>
-</form>
+    <h2>{{ current_project.name }}</h2>
 
-<!-- <h3>Tasks</h3> -->
-<br>
-<ul>
-{% for task in project.tasks %}
-    <li class="{% if task.done %}done{% endif %}">
+    <!-- <h3>Add Task</h3> -->
+    <form method="post" action="/projects/{{ current_project.id }}/tasks">
+        <input name="title" placeholder="Task title" required>
+        <input type="date" name="due_date" required>
+        <select name="priority">
+            <option>High</option>
+            <option>Medium</option>
+            <option>Low</option>
+        </select>
+        <button>Add</button>
+    </form>
 
-        <form method="post" action="/tasks/{{ task.id }}/toggle" style="display:inline">
-            <button>✔</button>
-        </form>
+    <!-- <h3>Tasks</h3> -->
+    <br>
+    <ul>
+    {% for task in current_project.tasks %}
+        <li class="{% if task.done %}done{% endif %}">
 
-        <a href="/tasks/{{ task.id }}/edit">✏️ </a>
+            <form method="post" action="/tasks/{{ task.id }}/toggle" style="display:inline">
+                <button>✔</button>
+            </form>
 
-        <!-- <span class="{{ task.priority|lower }}">
-            {{ task.title }} ({{ task.priority }} {{ task.due_date.strftime('%d/%m') }})
-        </span> -->
+            <a href="/tasks/{{ task.id }}/edit">✏️ </a>
 
-        <span class="task-meta {{ task.priority|lower }}">
-            {% if task.priority == 'High' %}🔴{% endif %}
-            {% if task.priority == 'Medium' %}🟡{% endif %}
-            {% if task.priority == 'Low' %}🟢{% endif %}
-            {{ task.due_date.strftime('%d %b') if task.due_date else '—' }}
-        </span>
-        
-         {{ task.title }}
-    </li>
-{% endfor %}
-</ul>
+            <span class="task-meta {{ task.priority|lower }}">
+                {% if task.priority == 'High' %}🔴{% endif %}
+                {% if task.priority == 'Medium' %}🟡{% endif %}
+                {% if task.priority == 'Low' %}🟢{% endif %}
+                {{ task.due_date.strftime('%d %b') if task.due_date else '—' }}
+            </span>
+            
+            {{ task.title }}
+        </li>
+    {% endfor %}
+    </ul>
 
+{% else %}
+    <p>Select a project from the left.</p>
+{% endif %}
 
 {% endblock %}
