@@ -30,6 +30,26 @@ li {
     line-height: 1.5;
 }
 
+.project-body {
+    display: flex;
+    gap: 20px;
+}
+
+.tasks-panel {
+    flex: 2;
+}
+
+.notes-panel {
+    flex: 1;
+    border-left: 1px solid #ccc;
+    padding-left: 15px;
+}
+
+.notes-panel textarea {
+    width: 100%;
+    height: 300px;
+}
+
 .app-container {
     display: flex;
     height: 100vh;

@@ -3,43 +3,62 @@
 
 {% if current_project %}
 
-    <h2>{{ current_project.name }}</h2>
+<h2>{{ current_project.name }}</h2>
 
-    <!-- <h3>Add Task</h3> -->
-    <form method="post" action="/projects/{{ current_project.id }}/tasks">
-        <input name="title" placeholder="Task title" required>
-        <input type="date" name="due_date" required>
-        <select name="priority">
-            <option>High</option>
-            <option>Medium</option>
-            <option>Low</option>
-        </select>
-        <button>Add</button>
-    </form>
+<div class="project-body">
 
-    <!-- <h3>Tasks</h3> -->
-    <br>
-    <ul>
-    {% for task in current_project.tasks %}
-        <li class="{% if task.done %}done{% endif %}">
+     <!-- TASKS -->
+    <div class="tasks-panel">
+        <!-- <h3>Add Task</h3> -->
+        <form method="post" action="/projects/{{ current_project.id }}/tasks">
+            <input name="title" placeholder="Task title" required>
+            <input type="date" name="due_date" required>
+            <select name="priority">
+                <option>High</option>
+                <option>Medium</option>
+                <option>Low</option>
+            </select>
+            <button>Add</button>
+        </form>
 
-            <form method="post" action="/tasks/{{ task.id }}/toggle" style="display:inline">
-                <button>✔</button>
-            </form>
+        <!-- <h3>Tasks</h3> -->
+        <br>
+        <ul>
+        {% for task in current_project.tasks %}
+            <li class="{% if task.done %}done{% endif %}">
 
-            <a href="/tasks/{{ task.id }}/edit">✏️ </a>
+                <form method="post" action="/tasks/{{ task.id }}/toggle" style="display:inline">
+                    <button>✔</button>
+                </form>
 
-            <span class="task-meta {{ task.priority|lower }}">
-                {% if task.priority == 'High' %}🔴{% endif %}
-                {% if task.priority == 'Medium' %}🟡{% endif %}
-                {% if task.priority == 'Low' %}🟢{% endif %}
-            </span>
-            {{ task.due_date.strftime('%d %b') if task.due_date else '—' }}
-            :
-            {{ task.title }}
-        </li>
-    {% endfor %}
-    </ul>
+                <a href="/tasks/{{ task.id }}/edit">✏️ </a>
+
+                <span class="task-meta {{ task.priority|lower }}">
+                    {% if task.priority == 'High' %}🔴{% endif %}
+                    {% if task.priority == 'Medium' %}🟡{% endif %}
+                    {% if task.priority == 'Low' %}🟢{% endif %}
+                </span>
+                {{ task.due_date.strftime('%d %b') if task.due_date else '—' }}
+                :
+                {{ task.title }}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+
+    <!-- NOTES -->
+    <div class="notes-panel">
+        <h3>Project Notes</h3>
+
+        <form method="post" action="/projects/{{ current_project.id }}/notes">
+            <textarea name="notes"
+                      placeholder="Write notes here...">{{ current_project.notes }}</textarea>
+            <br><br>
+            <button>Save Notes</button>
+        </form>
+    </div>
+
+</div>
 
 {% else %}
     <p>Select a project from the left.</p>

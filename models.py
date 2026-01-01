@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, Date, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, Date, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -8,6 +8,8 @@ class Project(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     status = Column(String, default="Active")
+
+    notes = Column(Text, default="") 
 
     tasks = relationship("Task", back_populates="project", cascade="all, delete")
 

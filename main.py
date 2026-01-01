@@ -158,3 +158,16 @@ def update_task(
 
     db.commit()
     return RedirectResponse(f"/projects/{task.project_id}", status_code=303)
+
+
+@app.post("/projects/{project_id}/notes")
+def update_project_notes(
+    project_id: int,
+    notes: str = Form(""),
+    db: Session = Depends(get_db)
+):
+    project = db.query(Project).get(project_id)
+    project.notes = notes
+    db.commit()
+    return RedirectResponse(f"/projects/{project_id}", status_code=303)
+
