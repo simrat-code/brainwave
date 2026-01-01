@@ -43,4 +43,7 @@ $ sudo systemctl enable brainwave
 
 $ systemctl status brainwave
 
+$ journalctl -u brainwave --no-pager
+$ journalctl -u brainwave -f
+
 
