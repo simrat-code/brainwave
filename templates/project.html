@@ -33,9 +33,9 @@
                 {% if task.priority == 'High' %}🔴{% endif %}
                 {% if task.priority == 'Medium' %}🟡{% endif %}
                 {% if task.priority == 'Low' %}🟢{% endif %}
-                {{ task.due_date.strftime('%d %b') if task.due_date else '—' }}
             </span>
-            
+            {{ task.due_date.strftime('%d %b') if task.due_date else '—' }}
+            :
             {{ task.title }}
         </li>
     {% endfor %}
