@@ -47,3 +47,6 @@ $ journalctl -u brainwave --no-pager
 $ journalctl -u brainwave -f
 
 
+### Other info
+
+Favicon generated from https://favicon.io/ 
