@@ -85,7 +85,8 @@ def view_project(project_id: int, request: Request, db: Session = Depends(get_db
         {
             "request": request, 
             "projects": projects,
-            "current_project": project
+            "current_project": project,
+            "today": date.today().isoformat()
         }
     )
 

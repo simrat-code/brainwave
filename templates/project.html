@@ -12,7 +12,7 @@
         <!-- <h3>Add Task</h3> -->
         <form method="post" action="/projects/{{ current_project.id }}/tasks">
             <input name="title" placeholder="Task title" required>
-            <input type="date" name="due_date" required>
+            <input type="date" name="due_date"  value="{{ today }}" required>
             <select name="priority">
                 <option>High</option>
                 <option>Medium</option>
